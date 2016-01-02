@@ -25,6 +25,9 @@ public class Utils {
 		return LargestPrimeNumberFactor.isPrimeNumber(number);
 	}
 	
+	public static long sumOfNaturalNumbers(long endIndex){
+		return (endIndex*(endIndex+1))/2;
+	}
 	public static long sqrt(long number){
 		return LargestPrimeNumberFactor.getSquareRootApproxi(number);
 	}
