@@ -10,8 +10,7 @@ public class HighlyDivisibleTriangularNumber {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		long k=76576500;
-		       //17907120;
+
        boolean brak=false;
        long sizebookmark=0;
        long number=0;
