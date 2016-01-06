@@ -10,6 +10,7 @@ import dev.euler.prob23.NonAbundantSums;
 import dev.euler.prob3.LargestPrimeNumberFactor;
 
 public class Utils {
+public static final	int ZERO=(int)'0';
 	public static int factorial(int number){
 		int factorial=1;
 		if(number==0){
@@ -45,9 +46,107 @@ public class Utils {
 	}
 	
 	
+	public static String multiply(String number1,String number2){
+		
+		int[]number1Array=convertStringToIntArray(number1);
+		int[]number2Array=convertStringToIntArray(number2);
+		int[]temp=null;
+		if(number2Array.length>number1Array.length){
+			temp=number2Array;
+			number2Array=number1Array;
+			number1Array=temp;
+		}
+	    
+		ArrayList<int[]> list= new ArrayList<int[]>();
+		for(int i=number2Array.length-1;i>=0;i--){
+		     int[][] duplicateRows=duplicateRows(number1Array, number2Array[i]);
+		     
+		     String result=add(duplicateRows);
+			list.add(convertStringToIntArray(result));
+			
+			
+		}
+		int size1=number1Array.length;
+		int size2=number2Array.length;
+		
+		int resultantSize=size1+size2;
+		for(int i=0;i<list.size();i++){
+
+				int[] array = list.get(i);
+				int diff=resultantSize-array.length;
+				list.set(i, rearrangeIntArray(array, i, diff, resultantSize));
+				
+			
+			
+		}
+		
+	
+		int [][] result=new int [list.size()][resultantSize];
+		
+		for(int i=0;i<list.size();i++){
+			result[i]=list.get(i);
+		}
+		String endResult=add(result);
+		return endResult;
+		
+	}
+	
+	
+	private static int[] rearrangeIntArray(int[] data,int i,int diff,int maxSize){
+		System.out.println("i=="+i+"difff="+diff);
+		int[] arrangedArray=new int[maxSize];
+		int count=0;
+		for(int k=0;k<diff-i;k++){
+			arrangedArray[k]=0;
+			count++;
+		}
+		for(int k=diff-i, p=0;k<arrangedArray.length-i;k++,p++){
+			arrangedArray[k]=data[p];
+		}
+		for(int k=arrangedArray.length-i;k<arrangedArray.length;k++){
+			arrangedArray[k]=0;
+		}
+		return arrangedArray;
+	}
+	
+ public static void main(String[] args) {
+	
+	 
+	 multiply("102", "102");
+}
+	
+	public static int[][] duplicateRows(int[] data,int rowsize){
+		int[][] array=new int[rowsize][];
+		
+		
+		for(int i=0;i<rowsize;i++){
+			int[] duplicate=new int[data.length];
+			for(int k=0;k<data.length;k++){
+				duplicate[k]=data[k];
+			}
+			array[i]=duplicate;
+		}
+		
+		return array;
+	}
+	
+	public static int[] convertStringToIntArray(String number){
+		int zero=(int)'0';
+		byte[] data=number.getBytes();
+		int[] numericData=new int[data.length];
+		for(int i=0;i<data.length;i++){
+			numericData[i]=((int)data[i]-zero);
+		}
+		return numericData;
+ 	}
+	
     public static String add(int[][] data){
     	int rlen=data.length;
+    	if(rlen==0){
+    		return "0";
+    	}
     	int clen=data[0].length;
+    
     	ArrayList<Integer> sumList=new ArrayList<Integer>(); 
     	for(int i=0;i<clen;i++){
     		int sum=0;
