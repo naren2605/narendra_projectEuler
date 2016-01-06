@@ -114,18 +114,7 @@ public static final	int ZERO=(int)'0';
 		return arrangedArray;
 	}
 	
- public static void main(String[] args) {
-	
-	 String product=power("2", 1000);
-	 System.out.println(product);
-	 int[] productarray=convertStringToIntArray(product);
-	 long sum=0L;
-	 for(int i=0;i<productarray.length;i++){
-		 sum=sum+productarray[i];
-	 }
-	 
-	 System.out.println(sum);
-}
+
 	
 	public static int[][] duplicateRows(int[] data,int rowsize){
 		int[][] array=new int[rowsize][];
