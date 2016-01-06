@@ -45,7 +45,13 @@ public static final	int ZERO=(int)'0';
 		return list;
 	}
 	
-	
+	public static String power(String base,long index){
+		String result="1";
+		for(long i=0;i<index;i++){
+			result=multiply(result, base).replaceFirst("0*", "");
+		}
+		return result;
+	}
 	public static String multiply(String number1,String number2){
 		
 		int[]number1Array=convertStringToIntArray(number1);
@@ -87,13 +93,12 @@ public static final	int ZERO=(int)'0';
 			result[i]=list.get(i);
 		}
 		String endResult=add(result);
-		return endResult;
+		return endResult.replaceFirst("0*", "");
 		
 	}
 	
 	
 	private static int[] rearrangeIntArray(int[] data,int i,int diff,int maxSize){
-		System.out.println("i=="+i+"difff="+diff);
 		int[] arrangedArray=new int[maxSize];
 		int count=0;
 		for(int k=0;k<diff-i;k++){
@@ -111,8 +116,15 @@ public static final	int ZERO=(int)'0';
 	
  public static void main(String[] args) {
 	
+	 String product=power("2", 1000);
+	 System.out.println(product);
+	 int[] productarray=convertStringToIntArray(product);
+	 long sum=0L;
+	 for(int i=0;i<productarray.length;i++){
+		 sum=sum+productarray[i];
+	 }
 	 
-	 multiply("102", "102");
+	 System.out.println(sum);
 }
 	
 	public static int[][] duplicateRows(int[] data,int rowsize){
