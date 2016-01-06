@@ -28,6 +28,81 @@ public static final	int ZERO=(int)'0';
 	
 	
 	
+	public static int fibnocii(int number){
+    	if(number==0||number==1){
+    		return 1;
+    	}
+    	else{
+    		return fibnocii(number-2)+fibnocii(number-1);	
+    	}
+    	
+    	
+    }
+	
+	public static String fibnocii(String number2){
+	     String sum1="0";
+	     String sum2="0";
+	     String fib="1";
+    	if(number2.equals("0")||number2.equals("1")){
+    		return 1+"";
+    	}
+    	for(int i=0;i<=new Integer(number2)-1;i++){
+    		if(i==0){
+    			sum1="0";
+    			sum2="1";
+    			
+    		}else{
+    			fib=add(sum1,sum2);
+    			sum1=sum2;
+    			sum2=fib;
+    		}
+    		
+    	}
+    	
+    	return sum2;
+    }
+	
+	
+	public static String add(String number1,String number2){
+	   	int[] number1Array=convertStringToIntArray(number1);
+	   	int[] number2Array=convertStringToIntArray(number2);
+	    int[][] array= new int[2][];
+	    
+	   	int diff=(number1Array.length-number2Array.length);
+	
+	   	if(diff<0){
+	   		int[] ar=new int[number2Array.length];
+	   		for(int i=0;i<(-1*diff);i++){
+	   			ar[i]=0;
+	   		}
+	   		for(int i=(-1*diff),k=0;i<ar.length;i++,k++){
+	   	
+	   			ar[i]=number1Array[k];
+	   		}
+	   		array[0]=ar;
+	   		array[1]=number2Array;
+	   	}
+	   	else{
+	   		int[] ar=new int[number1Array.length];
+	   		for(int i=0;i<(diff);i++){
+	   			ar[i]=0;
+	   		}
+	   		for(int i=(diff),k=0;i<ar.length;i++,k++){
+	   			ar[i]=number2Array[k];
+	   		}
+	   		array[0]=ar;
+	   		array[1]=number1Array;
+	   	}
+	   	
+		return  add(array);
+	}
+	
+    public static String sub(String number1,String number2){
+		
+		
+		return  null;
+	}
+	
 	public static String factorial(String number){
 			String factorial="1";
 		if(number.equals("0")){
