@@ -37,6 +37,9 @@ public static final	int ZERO=(int)'0';
 		return LargestPrimeNumberFactor.getSquareRootApproxi(number);
 	}
 	public static long power(long base ,long index){
+		if(index==0) {
+			return 1;
+		}
 		return LargestPrimeNumberFactor.power(base, index);
 	}
 	public static ArrayList<Long> getDivisors(long number){
