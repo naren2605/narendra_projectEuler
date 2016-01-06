@@ -26,6 +26,23 @@ public static final	int ZERO=(int)'0';
 		}
 	}
 	
+	
+	
+	public static String factorial(String number){
+			String factorial="1";
+		if(number.equals("0")){
+			return factorial;
+		}
+		else{
+			
+			Integer temp=new Integer(number);
+			for(int i=1;i<=temp;i++){
+				factorial=multiply(factorial,i+"" );
+			}
+			
+			return factorial;
+		}
+	}
 	public static boolean isPrime(long number){
 		return LargestPrimeNumberFactor.isPrimeNumber(number);
 	}
