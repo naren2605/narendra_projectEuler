@@ -356,8 +356,8 @@ public static final	int ZERO=(int)'0';
 	}
     public static void search(int size){
     	Count count=new Count();
-    	ArrayGraph g= new ArrayGraph(3);
-    	search(3,0,0,count,-1,-1,g);
+    	ArrayGraph g= new ArrayGraph(size);
+    	search(size,0,0,count,-1,-1,g);
     	System.out.println(count.i);
     	
      }
@@ -405,62 +405,91 @@ public static final	int ZERO=(int)'0';
 		if(row==size-1&&column==size-1){
 			count.i=count.i+1;
 			System.out.println("count.."+count.i);
+			g.getNode(row, column).visited=false;
+			
 			return;
 		}
-		g.getNode(row, column).visited=true;
+		
+		if(g.getNode(row, column).visited){
+			g.getNode(row, column).visited=false;
+			System.out.println("("+row+","+(column)+") visited");
+			return;
+		}
+		else{
+			g.getNode(row, column).visited=true;
+		}
+		
 		if(row>=0 && row<= size-1){
-			if(column+1<=size-1&&column+1>=0&&(row!=rPrev&&column+1!=cPrev)){
+			/*if(row==2&&column==1){
+				System.out.println("column...trace ("+rPrev+","+cPrev+")---("+row+","+column+")" +(column+1<=size-1&&column+1>=0)+""+(row!=rPrev&&column+1!=cPrev));
+			}*/
+			if(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev)){
 				System.out.println("column+1");
-				if(g.getNode(row, column+1).visited){
+		/*		if(g.getNode(row, column+1).visited){
 					g.getNode(row, column+1).visited=false;
 					System.out.println("("+row+","+(column+1)+") visited");
 				
 				}
-				else{
+				else{*/
 					search(size, row, column+1, count,row,column,g);		
-				}
+				/*}*/
 			//	g.getNode(row, column+1).visited=true;
 				
 			}
-            if(column-1>=0&&column-1<=size-1&&(row!=rPrev&&column-1!=cPrev)){
+			else if((row==rPrev&&column+1==cPrev)){
+				System.out.println("column+1 try ("+rPrev+","+(cPrev)+") visited..");
+			}
+            if(column-1>=0&&column-1<=size-1&&(row!=rPrev||column-1!=cPrev)){
             	System.out.println("column-1");
-            	if(g.getNode(row, column-1).visited){
+        /*    	if(g.getNode(row, column-1).visited){
 					g.getNode(row, column-1).visited=false;
 					System.out.println("("+row+","+(column-1)+") visited");
 				}
-            	else{
+            	else{*/
             		search(size, row, column-1, count,row,column,g);	
-            	}
+            /*	}*/
             	//g.getNode(row, column-1).visited=true;
             		
 			}
+            else if(row==rPrev&&column-1==cPrev){
+            	System.out.println("column-1 try ("+rPrev+","+(cPrev)+") visited..");
+            }
 		}
 		if(column>=0 && column<= size-1){
-			if(row+1<=size-1&&row+1>=0&&(column!=cPrev&&row+1!=rPrev)){
+			if(row==2&&column==1){
+				System.out.println("row...trace");
+			}
+			if(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev)){
 				System.out.println("row+1");
-				if(g.getNode(row+1, column).visited){
+			/*	if(g.getNode(row+1, column).visited){
 					g.getNode(row+1, column).visited=false;
 					System.out.println("("+(row+1)+","+(column)+") visited");
 				}
-				else{
+				else{*/
 					search(size, row+1, column, count,row,column,g);	
-				}
+				/*}*/
 				//g.getNode(row+1, column).visited=true;
 				
 			}
-            if(row-1>=0&&row-1<=size-1&&(column!=cPrev&&row-1!=rPrev)){
+			else if(column==cPrev&&row+1==rPrev){
+				System.out.println("row+1 try ("+rPrev+","+(cPrev)+") visited..");
+			}
+            if(row-1>=0&&row-1<=size-1&&(column!=cPrev||row-1!=rPrev)){
             	System.out.println("row-1");
             	
-            	if(g.getNode(row-1, column).visited){
+            /*	if(g.getNode(row-1, column).visited){
 					g.getNode(row-1, column).visited=false;
 					System.out.println("("+(row-1)+","+(column)+") visited");
 				}
-            	else{
+            	else{*/
             		search(size, row-1, column, count,row,column,g);	
-            	}
+            	/*}*/
             	//g.getNode(row-1, column).visited=true;
             	
 			}
+            else if(column==cPrev&&row-1==rPrev){
+            	System.out.println("row-1 try ("+rPrev+","+(cPrev)+") visited..");
+            }
 		}
 		
 	};
