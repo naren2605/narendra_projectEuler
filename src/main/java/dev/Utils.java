@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 import dev.euler.prob23.NonAbundantSums;
 import dev.euler.prob3.LargestPrimeNumberFactor;
@@ -331,6 +332,9 @@ public static final	int ZERO=(int)'0';
 		if(dataBytes.length%numberLength!=0){
 			size++;
 		}
+		
+		
+		
 		int[] dataIntArray=new int[size];
 		int zero=(int)'0';
 		for(int i=0,k=0;i<dataBytes.length;i=i+numberLength,k++){
@@ -351,19 +355,19 @@ public static final	int ZERO=(int)'0';
 	
 	
 	public static void main(String[] args) {
-		search(3);
+		search(21);
 		
 	}
     public static void search(int size){
     	Count count=new Count();
     	ArrayGraph g= new ArrayGraph(size);
-    	search(size,0,0,count,-1,-1,g);
+    	search(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
     	System.out.println(count.i);
     	
      }
 	
     public static class Count{
-    	int i=0;
+    	long i=0;
     	public Count() {
 			
 		}
@@ -397,26 +401,37 @@ public static final	int ZERO=(int)'0';
     		this.column=column;
     		
     	}
+    	@Override
+    	public String toString() {
+    		// TODO Auto-generated method stub
+    		return "("+row+","+column+")";
+    	}
     }
     
     
-	public static  void search(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g){
-		System.out.println("row=="+row+"column=="+column+" rPrev=="+rPrev+" cPrev==="+cPrev);
+	public static  void search(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,List<List<Node>> pathlist,List<Node> path){
+		//System.out.println("row=="+row+"column=="+column+" rPrev=="+rPrev+" cPrev==="+cPrev);
 		if(row==size-1&&column==size-1){
 			count.i=count.i+1;
 			System.out.println("count.."+count.i);
 			g.getNode(row, column).visited=false;
-			
+		/*	path.add(g.getNode(row, column));
+			pathlist.add(path);
+			path=new ArrayList<Utils.Node>();*/
+		/*	for(int i=0;i<pathlist.size();i++){
+				System.out.println(pathlist.get(i)+" "+pathlist.get(i).hashCode());
+			}*/
 			return;
 		}
 		
 		if(g.getNode(row, column).visited){
 			g.getNode(row, column).visited=false;
-			System.out.println("("+row+","+(column)+") visited");
+			//System.out.println("("+row+","+(column)+") visited");
 			return;
 		}
 		else{
 			g.getNode(row, column).visited=true;
+			/*path.add(g.getNode(row, column));*/
 		}
 		
 		if(row>=0 && row<= size-1){
@@ -424,74 +439,71 @@ public static final	int ZERO=(int)'0';
 				System.out.println("column...trace ("+rPrev+","+cPrev+")---("+row+","+column+")" +(column+1<=size-1&&column+1>=0)+""+(row!=rPrev&&column+1!=cPrev));
 			}*/
 			if(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev)){
-				System.out.println("column+1");
+			//	System.out.println("column+1");
 		/*		if(g.getNode(row, column+1).visited){
 					g.getNode(row, column+1).visited=false;
 					System.out.println("("+row+","+(column+1)+") visited");
 				
 				}
 				else{*/
-					search(size, row, column+1, count,row,column,g);		
+					search(size, row, column+1, count,row,column,g,pathlist,path);		
 				/*}*/
 			//	g.getNode(row, column+1).visited=true;
 				
 			}
-			else if((row==rPrev&&column+1==cPrev)){
-				System.out.println("column+1 try ("+rPrev+","+(cPrev)+") visited..");
-			}
-            if(column-1>=0&&column-1<=size-1&&(row!=rPrev||column-1!=cPrev)){
+		/*	else if((row==rPrev&&column+1==cPrev)){
+				//System.out.println("column+1 try ("+rPrev+","+(cPrev)+") visited..");
+			}*/
+/*            if(column-1>=0&&column-1<=size-1&&(row!=rPrev||column-1!=cPrev)){
             	System.out.println("column-1");
-        /*    	if(g.getNode(row, column-1).visited){
+            	if(g.getNode(row, column-1).visited){
 					g.getNode(row, column-1).visited=false;
 					System.out.println("("+row+","+(column-1)+") visited");
 				}
-            	else{*/
-            		search(size, row, column-1, count,row,column,g);	
-            /*	}*/
+            	else{
+            		search(size, row, column-1, count,row,column,g,pathlist,path);	
+            	}
             	//g.getNode(row, column-1).visited=true;
             		
 			}
             else if(row==rPrev&&column-1==cPrev){
             	System.out.println("column-1 try ("+rPrev+","+(cPrev)+") visited..");
-            }
+            }*/
 		}
 		if(column>=0 && column<= size-1){
-			if(row==2&&column==1){
-				System.out.println("row...trace");
-			}
 			if(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev)){
-				System.out.println("row+1");
+				//System.out.println("row+1");
 			/*	if(g.getNode(row+1, column).visited){
 					g.getNode(row+1, column).visited=false;
 					System.out.println("("+(row+1)+","+(column)+") visited");
 				}
 				else{*/
-					search(size, row+1, column, count,row,column,g);	
+					search(size, row+1, column, count,row,column,g,pathlist,path);	
 				/*}*/
 				//g.getNode(row+1, column).visited=true;
 				
 			}
-			else if(column==cPrev&&row+1==rPrev){
+		/*	else if(column==cPrev&&row+1==rPrev){
 				System.out.println("row+1 try ("+rPrev+","+(cPrev)+") visited..");
-			}
-            if(row-1>=0&&row-1<=size-1&&(column!=cPrev||row-1!=rPrev)){
+			}*/
+          /*  if(row-1>=0&&row-1<=size-1&&(column!=cPrev||row-1!=rPrev)){
             	System.out.println("row-1");
             	
-            /*	if(g.getNode(row-1, column).visited){
+            	if(g.getNode(row-1, column).visited){
 					g.getNode(row-1, column).visited=false;
 					System.out.println("("+(row-1)+","+(column)+") visited");
 				}
-            	else{*/
-            		search(size, row-1, column, count,row,column,g);	
-            	/*}*/
+            	else{
+            		search(size, row-1, column, count,row,column,g,pathlist,path);	
+            	}
             	//g.getNode(row-1, column).visited=true;
             	
 			}
             else if(column==cPrev&&row-1==rPrev){
             	System.out.println("row-1 try ("+rPrev+","+(cPrev)+") visited..");
-            }
+            }*/
 		}
-		
+		g.getNode(row, column).visited=false;
 	};
 	
 }
