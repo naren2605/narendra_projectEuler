@@ -63,12 +63,7 @@ for(long i=1;i<=1000;i++){
 	public static String getStringRepresentationOfNumber(long number,boolean inloop){
 		
 		int size=(""+number).length();	
-		if(number==100&&!inloop){
-			return "one hundred";
-		}
-		if(number==1000&&!inloop){
-			return "one thousand";
-		}
+		
 		if(map.get(number)!=null){
 			return map.get(number);
 		}

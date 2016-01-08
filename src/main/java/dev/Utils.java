@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 import dev.euler.prob23.NonAbundantSums;
 import dev.euler.prob3.LargestPrimeNumberFactor;
@@ -96,6 +97,7 @@ public static final	int ZERO=(int)'0';
 	   	
 		return  add(array);
 	}
+
 	
     public static String sub(String number1,String number2){
 		
@@ -346,4 +348,121 @@ public static final	int ZERO=(int)'0';
 		}
 		return dataIntArray;
 	} 
+	
+	
+	public static void main(String[] args) {
+		search(3);
+		
+	}
+    public static void search(int size){
+    	Count count=new Count();
+    	ArrayGraph g= new ArrayGraph(3);
+    	search(3,0,0,count,-1,-1,g);
+    	System.out.println(count.i);
+    	
+     }
+	
+    public static class Count{
+    	int i=0;
+    	public Count() {
+			
+		}
+    }
+    public static class ArrayGraph{
+    	HashSet<Node> nodes=new HashSet<Utils.Node>();
+    	Node[][] nodeArray;
+    	public ArrayGraph(int size) {
+    		nodeArray=new Node[size][size];
+    		for(int i=0;i<size;i++){
+	
+    			for(int j=0;j<size;j++){
+    				Node n=new Node(i, j);
+    				nodes.add(n);
+    				nodeArray[i][j]=n;
+        		}
+    		}
+    	}    	
+    	Node getNode(int row,int column){
+    		return nodeArray[row][column];
+    	}
+    	
+    }
+    public static class Node{
+    	int row;
+    	int column;
+    	boolean visited=false;
+    	public Node(int row,int column) {
+		
+    		this.row=row;
+    		this.column=column;
+    		
+    	}
+    }
+    
+    
+	public static  void search(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g){
+		System.out.println("row=="+row+"column=="+column+" rPrev=="+rPrev+" cPrev==="+cPrev);
+		if(row==size-1&&column==size-1){
+			count.i=count.i+1;
+			System.out.println("count.."+count.i);
+			return;
+		}
+		g.getNode(row, column).visited=true;
+		if(row>=0 && row<= size-1){
+			if(column+1<=size-1&&column+1>=0&&(row!=rPrev&&column+1!=cPrev)){
+				System.out.println("column+1");
+				if(g.getNode(row, column+1).visited){
+					g.getNode(row, column+1).visited=false;
+					System.out.println("("+row+","+(column+1)+") visited");
+				
+				}
+				else{
+					search(size, row, column+1, count,row,column,g);		
+				}
+			//	g.getNode(row, column+1).visited=true;
+				
+			}
+            if(column-1>=0&&column-1<=size-1&&(row!=rPrev&&column-1!=cPrev)){
+            	System.out.println("column-1");
+            	if(g.getNode(row, column-1).visited){
+					g.getNode(row, column-1).visited=false;
+					System.out.println("("+row+","+(column-1)+") visited");
+				}
+            	else{
+            		search(size, row, column-1, count,row,column,g);	
+            	}
+            	//g.getNode(row, column-1).visited=true;
+            		
+			}
+		}
+		if(column>=0 && column<= size-1){
+			if(row+1<=size-1&&row+1>=0&&(column!=cPrev&&row+1!=rPrev)){
+				System.out.println("row+1");
+				if(g.getNode(row+1, column).visited){
+					g.getNode(row+1, column).visited=false;
+					System.out.println("("+(row+1)+","+(column)+") visited");
+				}
+				else{
+					search(size, row+1, column, count,row,column,g);	
+				}
+				//g.getNode(row+1, column).visited=true;
+				
+			}
+            if(row-1>=0&&row-1<=size-1&&(column!=cPrev&&row-1!=rPrev)){
+            	System.out.println("row-1");
+            	
+            	if(g.getNode(row-1, column).visited){
+					g.getNode(row-1, column).visited=false;
+					System.out.println("("+(row-1)+","+(column)+") visited");
+				}
+            	else{
+            		search(size, row-1, column, count,row,column,g);	
+            	}
+            	//g.getNode(row-1, column).visited=true;
+            	
+			}
+		}
+		
+	};
+	
 }
