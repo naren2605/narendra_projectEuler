@@ -361,7 +361,7 @@ public static final	int ZERO=(int)'0';
     public static void search(int size){
     	Count count=new Count();
     	ArrayGraph g= new ArrayGraph(size);
-    	search(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
+    	search2(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
     	System.out.println(count.i);
     	
      }
@@ -403,10 +403,39 @@ public static final	int ZERO=(int)'0';
     	}
     	@Override
     	public String toString() {
-    		// TODO Auto-generated method stub
     		return "("+row+","+column+")";
     	}
     }
+    
+
+    public static  void search2(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,List<List<Node>> pathlist,List<Node> path){
+		if(row==size-1&&column==size-1){
+			count.i=count.i+1;
+			System.out.println("count.."+count.i);
+			g.getNode(row, column).visited=false;
+			return;
+		}
+		
+		if(g.getNode(row, column).visited){
+			g.getNode(row, column).visited=false;
+			return;
+		}
+
+			g.getNode(row, column).visited=true;
+		
+		
+		if(row>=0 && row<= size-1&&(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev))){
+				search2(size, row, column+1, count,row,column,g,pathlist,path);		
+
+		}
+		if(column>=0 && column<= size-1&&(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev))){
+
+				search2(size, row+1, column, count,row,column,g,pathlist,path);	
+	
+		}
+		g.getNode(row, column).visited=false;
+	};
+
     
     
 	public static  void search(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,List<List<Node>> pathlist,List<Node> path){
