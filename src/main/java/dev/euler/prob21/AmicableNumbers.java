@@ -20,7 +20,7 @@ public class AmicableNumbers {
 				set.add(i);
 				System.out.println("amicable number ="+i+" reflection "+sum2);
 			}
-
+     
 		
 	}
 		

@@ -24,7 +24,7 @@ public static final	int ZERO=(int)'0';
 				factorial=factorial*tempNumber--;
 			}
 			
-			return factorial;
+			return factorial;    
 		}
 	}
 	
