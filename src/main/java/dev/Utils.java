@@ -143,6 +143,10 @@ public static final	int ZERO=(int)'0';
 		return list;
 	}
 	
+	public static ArrayList<Long> getDivisorsWithOutNumber(long number){
+		ArrayList<Long> list=NonAbundantSums.getDivisors(number);
+		return list;
+	}
 	public static String power(String base,long index){
 		String result="1";
 		for(long i=0;i<index;i++){
