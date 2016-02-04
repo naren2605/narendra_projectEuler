@@ -25,7 +25,14 @@ public class MaximumPathSum {
 		StackList<Integer> mxpath=new StackList<Integer>();
 	getMaximumPath(data, 0, 0, data.get(0).get(0),0, path,mxpath);;
 	mxpath.display();
-	
+	Iterator<Integer> mxpathIterator=mxpath.iterator();
+	int maxpathSum=0;
+	for(;mxpathIterator.hasNext();){
+		maxpathSum=maxpathSum+mxpathIterator.next();
+				
+	}
+	System.out.println();
+	System.out.println(maxpathSum);
 	}
 
 	

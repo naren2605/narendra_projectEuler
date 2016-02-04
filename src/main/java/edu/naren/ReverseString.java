@@ -1,7 +1,9 @@
 package edu.naren;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ReverseString {
@@ -22,14 +24,30 @@ public class ReverseString {
 /*permute("ab", "");
 */	
 		
-		String data="nar";
-		HashMap<String, ArrayList<String>> map= new HashMap<String, ArrayList<String>>();
-permute(data, "", 0, data.length(),map);	
+		String data="0123456789";
+		StackList<String> permStack= new StackList<String>();
+		System.out.println(new Date());
+      permute(data, "", 0, data.length(),permStack);
+      System.out.println(new Date());
+     Iterator<String> allpermutations=permStack.iterator();
+System.out.println(permStack.size());
 
-for(String dat:map.keySet()){
-	System.out.print(data+"---->");
+String millonthPosibility="";
+for(int i=1;allpermutations.hasNext();i++){
 
+	
+	
+	
+	if(i==1000000){
+		millonthPosibility=allpermutations.next();
+	}
+	else{
+		allpermutations.next();
+	}
 }
+
+System.out.println(millonthPosibility);
+
 	}
 
 	
@@ -52,30 +70,25 @@ for(String dat:map.keySet()){
 		return str.substring(position, position+1)+str.substring(0,position)+str.substring(position+1,str.length());
 		}
 	
-	public static void  permute(String data,String perm,int start,int size,Map<String,ArrayList<String>> map){
+	public static void  permute(String data,String perm,int start,int size,StackList<String> permStack){
 		if(start==size){
-	        if(map.get(data)!=null){
-				map.get(data).add(perm);
-			}
-			else{
-				map.put(data, new ArrayList<String>());
-				map.get(data).add(perm);
-			}
+			
+	       permStack.push(perm);
 			return;
 		}
 		
 		else{
 
-			if(map.get(data)!=null){
+		/*	if(map.get(data)!=null){
 				map.get(data).add(perm);
 			}
 			else{
 				map.put(data, new ArrayList<String>());
 				map.get(data).add(perm);
 			}
-			
+			*/
 			for(int i=start;i<size;i++){
-				permute(appendCharInFirstPosition(data, i), perm+getCharInString(data, i), start+1, size,map);				
+				permute(appendCharInFirstPosition(data, i), perm+getCharInString(data, i), start+1, size,permStack);				
 			}
 			
 		}
