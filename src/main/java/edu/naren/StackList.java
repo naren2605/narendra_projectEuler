@@ -1,0 +1,78 @@
+package edu.naren;
+
+import java.util.Iterator;
+
+public class StackList<Data extends Comparable<Data>>  implements Iterable<Data>{
+LinkedList<Data> list = new LinkedList<Data>();
+
+   public Iterator<Data> iterator() {
+		return list.iterator();
+	}
+    
+   public int size(){
+	   return list.size();
+   }
+   
+   public boolean isEmpty(){
+	   
+	   if(list.root==null){
+		   return true;
+	   }else{
+		   return false;
+	   }
+   }
+   
+   public void empty(){
+	   while(!this.isEmpty()){
+		   this.pop();
+	   }
+   }
+
+	public StackList<Data> push(Data data){
+		list.add(data);
+		return this;
+	}
+	public Data pop(){
+		if(list.next==null){
+			throw  new RuntimeException("stack is empty");	
+		}
+		Data data= list.next.data;
+		list.delete(list.next);
+		return data;
+	}
+	
+	
+
+	
+	public Data delete(int position){
+		return list.deleteAndReturnData(position);
+	}
+	
+	
+	public void display(){
+		list.display();
+	}
+	
+	public  StackList<Data> clone(){
+		StackList<Data> cloneStack=new StackList<Data>();
+		Iterator<Data> itr= iterator();
+		for(;itr.hasNext();){
+			cloneStack.push(itr.next());
+		}
+		return cloneStack;
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		
+		StackList<String> stack= new StackList<String>();
+		
+		stack.push("a").push("b").push("c");
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		
+	}
+}

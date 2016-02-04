@@ -304,6 +304,30 @@ public static final	int ZERO=(int)'0';
 		return data;
 	}
 	
+	public static List<List<String>> getStringArrayDataFromFile(File file){
+		List<List<String>> stringdata=new ArrayList<List<String>>();
+		try{
+			FileReader fr= new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+		
+			String line="";
+			for(int i=1;(line=br.readLine())!=null;i++){
+				ArrayList<String> data=new ArrayList<String>();
+				
+				for(String spaceSplit:line.split(" ")){
+					data.add(spaceSplit);
+				}
+				stringdata.add(data);
+				
+			}
+			
+			
+		}
+		catch(Exception e){
+			
+		}
+		return stringdata;
+	}
 	
 	public static int[][] convertStringData(String data,int numberLength){
 		int size=data.length()/numberLength;
