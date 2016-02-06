@@ -569,6 +569,9 @@ public static final	int ZERO=(int)'0';
 			pathList.push(path.clone());
 			path.display();
 			System.out.println();
+			if(track.i==0){
+				track.i=path.size();	
+			}
 			path.empty();
 			return;
 		}
@@ -576,15 +579,66 @@ public static final	int ZERO=(int)'0';
 		
 		
 		
-	  
+		System.out.println("row,column=="+"("+row+","+column+")"+"===rPrev,cPrev=="+"("+rPrev+","+cPrev+")");	  
+		
+		
+		
+	
+		
 		
 		if(row>=0 && row<= size-1&&(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev))){
 			path.push(g.getNode(row, column)); 
-				search3(size, row, column+1, count,row,column,g,pathList,path,track);
+			Iterator<StackList<Node>> pathsIterator=pathList.iterator();
+			if(track.i>0){
+				for(;pathsIterator.hasNext();){
+					StackList<Node> localPath=pathsIterator.next();
+					
+					
+					if(localPath.size()!=track.i){
+						
+						if(localPath.getFirst().equals(path.getFirst())){
+							System.out.println("path found=="+localPath);
+							System.out.println("replacing path=="+path);
+							pathList.push(path);
+							count.i=count.i+1;
+							return;
+						}
+						
+					}
+					
+				}	
+					
+					
+				}
+			
+			search3(size, row, column+1, count,row,column,g,pathList,path,track);
 		}
 		if(column>=0 && column<= size-1&&(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev))){
 			path.push(g.getNode(row, column));
-				search3(size, row+1, column, count,row,column,g,pathList,path,track);	
+			Iterator<StackList<Node>> pathsIterator=pathList.iterator();
+			if(track.i>0){
+				for(;pathsIterator.hasNext();){
+					StackList<Node> localPath=pathsIterator.next();
+					
+					
+					if(localPath.size()!=track.i){
+						
+						if(localPath.getFirst().equals(path.getFirst())){
+							System.out.println(localPath.getFirst()+">>>path found=="+localPath);
+							System.out.println("replacing path=="+path);
+							pathList.push(path);
+							count.i=count.i+1;
+							return;
+						}
+						
+					}
+					
+				}	
+					
+					
+				}	
+			
+			search3(size, row+1, column, count,row,column,g,pathList,path,track);	
 				
 		}
 		//g.getNode(row, column).visited=false;
