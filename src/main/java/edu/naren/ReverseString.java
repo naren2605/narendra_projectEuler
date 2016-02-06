@@ -11,18 +11,6 @@ public class ReverseString {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-/*	System.out.println(reverseStringRecursive("kumar"));
-	
-	int i=10;
-	int k=20;
-	k=k+i;
-	i=k-i;
-	k=k-i;
-	System.out.println(i);
-	System.out.println(k);
-	*/
-/*permute("ab", "");
-*/	
 		
 		String data="0123456789";
 		StackList<String> permStack= new StackList<String>();

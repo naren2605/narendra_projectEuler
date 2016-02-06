@@ -2,7 +2,7 @@ package edu.naren;
 
 import java.util.Iterator;
 
-public class LinkedList<Data extends Comparable<Data>>{
+public class LinkedList<Data>{
 	Node<Data> root,next=null;
 	
 	 public int size(){
@@ -134,7 +134,7 @@ public class LinkedList<Data extends Comparable<Data>>{
 		if(root==null){
 			throw new RuntimeException("no elements in list to delete");
 		}
-		System.out.println("deleting...");
+		//System.out.println("deleting...");
 		for(Node node=root;node!=null;node=node.front){
 			if(node==delnode){
 				if(node.rear!=null&&node.front!=null){
@@ -165,12 +165,21 @@ public class LinkedList<Data extends Comparable<Data>>{
 			System.out.print(node+"-->");
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String str="";
+		for(Node node=root;node!=null;node=node.front){
+		str=str+node+"-->";
+		}
+		return str;
+	}
 	public LinkedList(Data data) {
 		next=root=new Node<Data>(data);
 		
 	}
 	
-	static class Node<Data extends Comparable<Data>>{
+	static class Node<Data>{
 		Data data;
 		Node<Data> rear=null;
 		Node<Data> front=null;

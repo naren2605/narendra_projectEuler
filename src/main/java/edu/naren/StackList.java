@@ -2,7 +2,7 @@ package edu.naren;
 
 import java.util.Iterator;
 
-public class StackList<Data extends Comparable<Data>>  implements Iterable<Data>{
+public class StackList<Data>  implements Iterable<Data>{
 LinkedList<Data> list = new LinkedList<Data>();
 
    public Iterator<Data> iterator() {
@@ -41,7 +41,9 @@ LinkedList<Data> list = new LinkedList<Data>();
 		return data;
 	}
 	
-	
+	public Data getFirst(){
+	   return list.root.data;
+	}
 
 	
 	public Data delete(int position){
@@ -63,6 +65,11 @@ LinkedList<Data> list = new LinkedList<Data>();
 		
 	}
 	
+	@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return list.toString();
+		}
 	
 	public static void main(String[] args) {
 		

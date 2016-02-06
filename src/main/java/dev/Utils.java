@@ -6,10 +6,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import dev.euler.prob23.NonAbundantSums;
 import dev.euler.prob3.LargestPrimeNumberFactor;
+import edu.naren.StackList;
 
 public class Utils {
 public static final	int ZERO=(int)'0';
@@ -19,12 +21,19 @@ public static final	int ZERO=(int)'0';
 			return factorial;
 		}
 		else{
+			
+			
+			
+			
 			int tempNumber=number;
 			while(tempNumber!=0){
 				factorial=factorial*tempNumber--;
 			}
 			
-			return factorial;    
+			
+			
+			
+			return factorial;	
 		}
 	}
 	
@@ -383,13 +392,71 @@ public static final	int ZERO=(int)'0';
 	
 	
 	public static void main(String[] args) {
-		search(21);
+		search(3);
 		
 	}
     public static void search(int size){
     	Count count=new Count();
+    	Count track=new Count();
     	ArrayGraph g= new ArrayGraph(size);
-    	search2(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
+    //	search2(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
+    	StackList<StackList<Node>> totalpaths=new StackList<StackList<Node>>();
+    	search3(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track);
+    	
+    	StackList<StackList<Node>> refinepaths=new StackList<StackList<Node>>();
+    	Iterator<StackList<Node>> totalPathsIterator=totalpaths.iterator();
+    	StackList<Node> previouspath=null;
+    	int length=0;
+    	for(;totalPathsIterator.hasNext();){
+    	StackList<Node> nodes=totalPathsIterator.next();
+    		if(length==0){
+    			length=nodes.size();
+    			refinepaths.push(nodes);
+    			previouspath=nodes;
+    			
+    		}
+    		else if(length==nodes.size()){
+    			
+    			previouspath=nodes;
+    			refinepaths.push(nodes);
+    		}
+    		else{
+    			
+    			StackList<Node> path= new StackList<Utils.Node>();
+    			Iterator<Node> nodeIterator=nodes.iterator();
+    			Iterator<Node> previousPathsIterator=previouspath.iterator();
+    			Node findelement=null;
+    			for(;nodeIterator.hasNext();){
+    				findelement=nodeIterator.next();
+    				break;
+    			}
+    			for(;previousPathsIterator.hasNext();){
+
+    				Node node=previousPathsIterator.next();
+    				if(node.equals(findelement)){
+    					break;
+    				}
+    				else{
+    					 path.push(node);
+    				}
+    			}
+    			path.push(findelement);
+    			for(;nodeIterator.hasNext();){
+    				path.push(nodeIterator.next());
+    			}
+    			refinepaths.push(path);
+    		   	previouspath=path;
+    		}
+    	}
+    	
+
+    	Iterator<StackList<Node>> refinepathsIterator=refinepaths.iterator();
+    	System.out.println("refining..");
+    	for(;refinepathsIterator.hasNext();){
+    		refinepathsIterator.next().display();
+    		System.out.println();
+    	}
+    	
     	System.out.println(count.i);
     	
      }
@@ -430,6 +497,20 @@ public static final	int ZERO=(int)'0';
     		
     	}
     	@Override
+    	public boolean equals(Object o) {
+    		// TODO Auto-generated method stub
+    	
+    		if(o instanceof Node){
+    			Node node=(Node) o;
+    			if(node.row==this.row&&node.column==this.column){
+    				return true;
+    			}
+    		}
+    		return super.equals(o);
+    	}
+    	
+    	
+    	@Override
     	public String toString() {
     		return "("+row+","+column+")";
     	}
@@ -463,6 +544,53 @@ public static final	int ZERO=(int)'0';
 		}
 		g.getNode(row, column).visited=false;
 	};
+	
+	
+	
+	
+	
+	/**
+	 * improving search 3
+	 * @param size
+	 * @param row
+	 * @param column
+	 * @param count
+	 * @param rPrev
+	 * @param cPrev
+	 * @param g
+	 * @param pathlist
+	 * @param path
+	 */
+    public static  void search3(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,StackList<StackList<Node>> pathList,StackList<Node> path,Count track){
+		if(row==size-1&&column==size-1){
+			count.i=count.i+1;
+			
+			path.push(g.getNode(row, column));
+			pathList.push(path.clone());
+			path.display();
+			System.out.println();
+			path.empty();
+			return;
+		}
+
+		
+		
+		
+	  
+		
+		if(row>=0 && row<= size-1&&(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev))){
+			path.push(g.getNode(row, column)); 
+				search3(size, row, column+1, count,row,column,g,pathList,path,track);
+		}
+		if(column>=0 && column<= size-1&&(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev))){
+			path.push(g.getNode(row, column));
+				search3(size, row+1, column, count,row,column,g,pathList,path,track);	
+				
+		}
+		//g.getNode(row, column).visited=false;
+	};
+	
+	
 
     
     
