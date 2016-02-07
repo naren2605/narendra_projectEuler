@@ -66,6 +66,55 @@ LinkedList<Data> list = new LinkedList<Data>();
 	}
 	
 	@Override
+		public boolean equals(Object o) {
+			
+	        if(o instanceof StackList){
+	        	StackList<Data> obj=(StackList<Data>) o;
+	        	Iterator<Data> i1=this.iterator();
+	        	Iterator<Data> i2=obj.iterator();
+	        	for(;i1.hasNext()||i2.hasNext();){
+	        		
+	        		if(!i1.hasNext()){
+	        			return false;
+	        		}
+	        		else if(!i2.hasNext()){
+	        			return false;
+	        		}
+	        		if(!i1.next().equals(i2.next())){
+	        			return false;
+	        		}
+	        	}
+	        	return true;
+	        }  	
+		
+			return super.equals(o);
+		}
+
+	public boolean beginswith(StackList<Data> o) {
+		
+     
+        	StackList<Data> obj=o;
+        	Iterator<Data> i1=this.iterator();
+        	Iterator<Data> i2=obj.iterator();
+        	for(;i1.hasNext()||i2.hasNext();){
+        		
+        		if(!i1.hasNext()){
+        			break;
+        		}
+        		else if(!i2.hasNext()){
+        			break;
+        		}
+        		if(!i1.next().equals(i2.next())){
+        			return false;
+        		}
+        	}
+        	return true;
+	}
+	
+	
+	
+	
+	@Override
 		public String toString() {
 			// TODO Auto-generated method stub
 			return list.toString();

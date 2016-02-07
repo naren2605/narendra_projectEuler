@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.spi.LocaleNameProvider;
 
 import dev.euler.prob23.NonAbundantSums;
 import dev.euler.prob3.LargestPrimeNumberFactor;
@@ -392,7 +393,7 @@ public static final	int ZERO=(int)'0';
 	
 	
 	public static void main(String[] args) {
-		search(3);
+		search(2);
 		
 	}
     public static void search(int size){
@@ -597,9 +598,15 @@ public static final	int ZERO=(int)'0';
 					if(localPath.size()!=track.i){
 						
 						if(localPath.getFirst().equals(path.getFirst())){
-							System.out.println("path found=="+localPath);
-							System.out.println("replacing path=="+path);
-							pathList.push(path);
+							
+							if(!localPath.beginswith(path)){
+								continue;
+							}
+							
+							
+							System.out.println(localPath.getFirst()+">>>path found=="+path);
+							System.out.println("replacing path=="+localPath);
+							pathList.push(localPath);
 							count.i=count.i+1;
 							return;
 						}
@@ -624,9 +631,15 @@ public static final	int ZERO=(int)'0';
 					if(localPath.size()!=track.i){
 						
 						if(localPath.getFirst().equals(path.getFirst())){
-							System.out.println(localPath.getFirst()+">>>path found=="+localPath);
-							System.out.println("replacing path=="+path);
-							pathList.push(path);
+							
+							if(!localPath.beginswith(path)){
+								continue;
+							}
+							
+							
+							System.out.println(localPath.getFirst()+">>>path found=="+path);
+							System.out.println("replacing path=="+localPath);
+							pathList.push(localPath);
 							count.i=count.i+1;
 							return;
 						}
