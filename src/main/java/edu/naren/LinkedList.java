@@ -159,6 +159,21 @@ public class LinkedList<Data>{
 		return this;
 	}
 	
+	public Data get(int position){
+		Iterator<Data> iter=this.iterator();
+		for(int i=0;i<=position&&iter.hasNext();i++){
+			if(i==position){
+				return iter.next();
+			}
+			else{
+				iter.next();	
+			}
+			
+		}
+		
+		return null;
+	}
+	
 	
 	public void display(){
 		for(Node node=root;node!=null;node=node.front){

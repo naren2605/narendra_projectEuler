@@ -2,12 +2,18 @@ package dev;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.spi.LocaleNameProvider;
 
 import dev.euler.prob23.NonAbundantSums;
@@ -16,6 +22,8 @@ import edu.naren.StackList;
 
 public class Utils {
 public static final	int ZERO=(int)'0';
+
+public static final boolean test=false;
 	public static int factorial(int number){
 		int factorial=1;
 		if(number==0){
@@ -141,6 +149,8 @@ public static final	int ZERO=(int)'0';
 	public static long sqrt(long number){
 		return LargestPrimeNumberFactor.getSquareRootApproxi(number);
 	}
+	
+
 	public static long power(long base ,long index){
 		if(index==0) {
 			return 1;
@@ -392,73 +402,94 @@ public static final	int ZERO=(int)'0';
 	} 
 	
 	
-	public static void main(String[] args) {
-		search(2);
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		
+		//System.setOut(new PrintStream(new File("test")));
+		System.out.println(new Date());
+		
+	//	System.out.println(power(2+"", 10));
+		System.out.println(LargestPrimeNumberFactor.getSquareRootApproxiDouble(6));
+		//search(21);
+		
+		System.out.println(new Date());
+		
 		
 	}
+	
+	private static void  refinePaths(StackList<StackList<Node>> totalpaths,StackList<StackList<Node>> refinepaths){
+	  	Iterator<StackList<Node>> totalPathsIterator=totalpaths.iterator();
+	  	StackList<Node> previouspath=null;
+	  	int length=0;
+		for(;totalPathsIterator.hasNext();){
+	    	StackList<Node> nodes=totalPathsIterator.next();
+	    		if(length==0){
+	    			length=nodes.size();
+	    			refinepaths.push(nodes);
+	    			previouspath=nodes;	    			
+	    		}
+	    		else if(length==nodes.size()){
+	    			
+	    			previouspath=nodes;
+	    			refinepaths.push(nodes);
+	    		}
+	    		else{
+	    			
+	    			StackList<Node> path= new StackList<Utils.Node>();
+	    			Iterator<Node> nodeIterator=nodes.iterator();
+	    			Iterator<Node> previousPathsIterator=previouspath.iterator();
+	    			Node findelement=null;
+	    			for(;nodeIterator.hasNext();){
+	    				findelement=nodeIterator.next();
+	    				break;
+	    			}
+	    			for(;previousPathsIterator.hasNext();){
+
+	    				Node node=previousPathsIterator.next();
+	    				if(node.equals(findelement)){
+	    					break;
+	    				}
+	    				else{
+	    					 path.push(node);
+	    				}
+	    			}
+	    			path.push(findelement);
+	    			for(;nodeIterator.hasNext();){
+	    				path.push(nodeIterator.next());
+	    			}
+	    			refinepaths.push(path);
+	    		   	previouspath=path;
+	    		}
+	    	}
+	}
+	
+	
     public static void search(int size){
     	Count count=new Count();
     	Count track=new Count();
     	ArrayGraph g= new ArrayGraph(size);
     //	search2(size,0,0,count,-1,-1,g,new ArrayList<List<Node>>(),new ArrayList<Utils.Node>());
     	StackList<StackList<Node>> totalpaths=new StackList<StackList<Node>>();
-    	search3(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track);
+    	//search3(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track);
+    	//search5(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track);
+    	//search4(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track);
     	
-    	StackList<StackList<Node>> refinepaths=new StackList<StackList<Node>>();
-    	Iterator<StackList<Node>> totalPathsIterator=totalpaths.iterator();
-    	StackList<Node> previouspath=null;
-    	int length=0;
-    	for(;totalPathsIterator.hasNext();){
-    	StackList<Node> nodes=totalPathsIterator.next();
-    		if(length==0){
-    			length=nodes.size();
-    			refinepaths.push(nodes);
-    			previouspath=nodes;
-    			
-    		}
-    		else if(length==nodes.size()){
-    			
-    			previouspath=nodes;
-    			refinepaths.push(nodes);
-    		}
-    		else{
-    			
-    			StackList<Node> path= new StackList<Utils.Node>();
-    			Iterator<Node> nodeIterator=nodes.iterator();
-    			Iterator<Node> previousPathsIterator=previouspath.iterator();
-    			Node findelement=null;
-    			for(;nodeIterator.hasNext();){
-    				findelement=nodeIterator.next();
-    				break;
-    			}
-    			for(;previousPathsIterator.hasNext();){
-
-    				Node node=previousPathsIterator.next();
-    				if(node.equals(findelement)){
-    					break;
-    				}
-    				else{
-    					 path.push(node);
-    				}
-    			}
-    			path.push(findelement);
-    			for(;nodeIterator.hasNext();){
-    				path.push(nodeIterator.next());
-    			}
-    			refinepaths.push(path);
-    		   	previouspath=path;
-    		}
-    	}
+    	System.out.println("search6 "+search6(new SearchParameterForRecursion(size,0,0,count,-1,-1,g,totalpaths,new StackList<Utils.Node>(),track),"",new HashMap<Utils.SearchParameterForRecursion, Long>()));
+    	//System.out.println("total paths=="+count.i);
     	
-
-    	Iterator<StackList<Node>> refinepathsIterator=refinepaths.iterator();
+    	/*StackList<StackList<Node>> refinepaths=new StackList<StackList<Node>>();
     	System.out.println("refining..");
+    	refinePaths(totalpaths, refinepaths);
+    	Iterator<StackList<Node>> refinepathsIterator=refinepaths.iterator();
+    	
     	for(;refinepathsIterator.hasNext();){
     		refinepathsIterator.next().display();
     		System.out.println();
     	}
     	
-    	System.out.println(count.i);
+    	System.out.println(count.i);*/
+    	
+    	
     	
      }
 	
@@ -499,7 +530,7 @@ public static final	int ZERO=(int)'0';
     	}
     	@Override
     	public boolean equals(Object o) {
-    		// TODO Auto-generated method stub
+    	
     	
     		if(o instanceof Node){
     			Node node=(Node) o;
@@ -547,6 +578,127 @@ public static final	int ZERO=(int)'0';
 	};
 	
 	
+	 
+	public static class SearchParameterForRecursion{
+		
+		public static  Integer size=20;
+		Integer row;
+		Integer column;
+		Integer rPrev;
+	    Integer cPrev;
+	    long noOfPaths;
+	    @Override
+	    public boolean equals(Object o) {
+	    	if(o instanceof SearchParameterForRecursion){
+	    		SearchParameterForRecursion param=(SearchParameterForRecursion) o;
+	    		if(this.row.equals(param.row)&&this.column.equals(param.column)){
+	    			return true;
+	    		}
+	    		else{
+	    			return false;
+	    		}
+	    	}
+	    	return super.equals(o);
+	    }
+	    @Override
+	    public int hashCode() {
+	    	// TODO Auto-generated method stub
+	    	return this.toString().hashCode();
+	    }
+	    
+	    @Override
+	    public String toString() {
+	    	// TODO Auto-generated method stub
+	    	return "("+row+","+column+")";
+	    }
+	    public static Count count;
+	    public static ArrayGraph g;
+	    public static StackList<StackList<Node>> pathList;
+	    public static StackList<Node> path;
+	    public static Count track;
+	    public SearchParameterForRecursion(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,StackList<StackList<Node>> pathList,StackList<Node> path,Count track) {
+
+	    	SearchParameterForRecursion.size=size-1;
+	    	SearchParameterForRecursion.track=track;
+	    	SearchParameterForRecursion.g=g;
+	    	SearchParameterForRecursion.count=count;
+	    	SearchParameterForRecursion.pathList=pathList;
+	    	SearchParameterForRecursion.path=path;
+	    	SearchParameterForRecursion.track=track;
+	    	this.row=row;
+	    	this.column=column;
+	    	this.rPrev=rPrev;
+	    	this.cPrev=cPrev;
+		}
+	    public SearchParameterForRecursion(int row,int column,int rPrev,int cPrev) {
+			this.row=row;
+			this.column=column;
+			this.rPrev=rPrev;
+			this.cPrev=cPrev;
+		}
+	}
+	
+	
+	/***
+	 * search solution to use stacks instead of recursion 
+	 * @param size
+	 * @param row
+	 * @param column
+	 * @param count
+	 * @param rPrev
+	 * @param cPrev
+	 * @param g
+	 * @param pathList
+	 * @param path
+	 * @param track
+	 */
+	public static  void search5(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,StackList<StackList<Node>> pathList,StackList<Node> path,Count track){
+		
+	
+		
+		
+		StackList<SearchParameterForRecursion> callList=new StackList<Utils.SearchParameterForRecursion>();
+		callList.push(new SearchParameterForRecursion(size, row, column, count, rPrev, cPrev, g, pathList, path, track));
+		
+		
+		while(!callList.isEmpty()){
+			System.out.println("callist...");
+			SearchParameterForRecursion call=callList.pop();
+			System.out.println("row,col=("+call.row+","+call.column+")====rprev,cprev("+call.rPrev+","+call.cPrev+")");
+			if(call.row==size-1&&call.column==size-1){
+				System.out.println("reached..");
+				call.count.i=call.count.i+1;
+				
+				call.path.push(call.g.getNode(row, column));
+				call.pathList.push(call.path.clone());
+				if(call.track.i==0){
+					call.track.i=call.path.size();	
+				}
+				else if(call.track.i<0){
+					call.track.i++;
+				}
+				call.path.empty();
+				callList.pop();
+			}
+			else{
+				if(call.row>=0 && call.row<= size-1&&(call.column+1<=size-1&&call.column+1>=0&&(call.row!=call.rPrev||call.column+1!=cPrev))){
+					System.out.println("right"+call.g.getNode(call.row, call.column));
+					call.path.push(call.g.getNode(call.row, call.column)); 
+					callList.push(new SearchParameterForRecursion(size, call.row, call.column+1, call.count,call.row,call.column,call.g,call.pathList,call.path,call.track));
+			         
+				}
+				if(call.column>=0 && call.column<= size-1&&(call.row+1<=size-1&&call.row+1>=0&&(call.column!=call.cPrev||call.row+1!=call.rPrev))){
+					System.out.println("down"+call.g.getNode(call.row, call.column));
+					call.path.push(call.g.getNode(call.row, call.column));
+					callList.push(new SearchParameterForRecursion(size, call.row+1, call.column, call.count,call.row,call.column,call.g,call.pathList,call.path,call.track));
+				}
+				
+			}
+		}
+	
+	}
+	
+	
 	
 	
 	
@@ -568,10 +720,11 @@ public static final	int ZERO=(int)'0';
 			
 			path.push(g.getNode(row, column));
 			pathList.push(path.clone());
-			path.display();
-			System.out.println();
 			if(track.i==0){
 				track.i=path.size();	
+			}
+			else if(track.i<0){
+				track.i++;
 			}
 			path.empty();
 			return;
@@ -580,16 +733,20 @@ public static final	int ZERO=(int)'0';
 		
 		
 		
-		System.out.println("row,column=="+"("+row+","+column+")"+"===rPrev,cPrev=="+"("+rPrev+","+cPrev+")");	  
-		
-		
-		
 	
 		
 		
 		if(row>=0 && row<= size-1&&(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev))){
 			path.push(g.getNode(row, column)); 
+			
+			
+			
 			Iterator<StackList<Node>> pathsIterator=pathList.iterator();
+			
+			boolean pathFound=false;
+			
+			
+			if(test){
 			if(track.i>0){
 				for(;pathsIterator.hasNext();){
 					StackList<Node> localPath=pathsIterator.next();
@@ -602,13 +759,10 @@ public static final	int ZERO=(int)'0';
 							if(!localPath.beginswith(path)){
 								continue;
 							}
-							
-							
-							System.out.println(localPath.getFirst()+">>>path found=="+path);
-							System.out.println("replacing path=="+localPath);
 							pathList.push(localPath);
 							count.i=count.i+1;
-							return;
+							pathFound=true;
+							break;
 						}
 						
 					}
@@ -617,12 +771,26 @@ public static final	int ZERO=(int)'0';
 					
 					
 				}
+			else {
+				search3(size, row, column+1, count,row,column,g,pathList,path,track);	
+				
+			}
 			
-			search3(size, row, column+1, count,row,column,g,pathList,path,track);
+			
+			}
+			
+			if(!pathFound){
+				search3(size, row, column+1, count,row,column,g,pathList,path,track);	
+			}
+			
+			
 		}
 		if(column>=0 && column<= size-1&&(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev))){
 			path.push(g.getNode(row, column));
 			Iterator<StackList<Node>> pathsIterator=pathList.iterator();
+			boolean pathFound=false;
+			
+			if(test){
 			if(track.i>0){
 				for(;pathsIterator.hasNext();){
 					StackList<Node> localPath=pathsIterator.next();
@@ -635,13 +803,10 @@ public static final	int ZERO=(int)'0';
 							if(!localPath.beginswith(path)){
 								continue;
 							}
-							
-							
-							System.out.println(localPath.getFirst()+">>>path found=="+path);
-							System.out.println("replacing path=="+localPath);
 							pathList.push(localPath);
 							count.i=count.i+1;
-							return;
+							pathFound=true;
+							break;
 						}
 						
 					}
@@ -649,16 +814,206 @@ public static final	int ZERO=(int)'0';
 				}	
 					
 					
-				}	
+				}
+			else {
+				
+				search3(size, row+1, column, count,row,column,g,pathList,path,track);
+			}
 			
-			search3(size, row+1, column, count,row,column,g,pathList,path,track);	
+			}
+			
+			
+			if(!pathFound){
+				search3(size, row+1, column, count,row,column,g,pathList,path,track);	
+			}
+				
 				
 		}
-		//g.getNode(row, column).visited=false;
+	
 	};
 	
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * optimized solution for lattice paths
+	 * @param size
+	 * @param row
+	 * @param column
+	 * @param count
+	 * @param rPrev
+	 * @param cPrev
+	 * @param g
+	 * @param pathlist
+	 * @param path
+	 */
+    public static  Long search6(SearchParameterForRecursion call,String path,Map<SearchParameterForRecursion,Long> map){
+    	
+    	if(map.containsKey(call)){
+    		return map.get(call);
+    	}
+		if(call.row==SearchParameterForRecursion.size&&call.column==SearchParameterForRecursion.size){
+			SearchParameterForRecursion.count.i=SearchParameterForRecursion.count.i+1;
+    		return call.noOfPaths;
+		}
+		long right=0;
+		if((call.column+1<=SearchParameterForRecursion.size&&call.column+1>=0)){
+			right=right+search6(new SearchParameterForRecursion(call.row, call.column+1,call.row,call.column),path,map);	
+            if(right==0){
+            	right=1;
+            }		
+		}
+		 long down=0;
+		if((call.row+1<=SearchParameterForRecursion.size&&call.row+1>=0)){
+		   
+			down=down+search6(new SearchParameterForRecursion(call.row+1, call.column,call.row,call.column),path,map);		
+		    if(down==0){
+		    	down=1;
+		    }
+		}
+		long totalCount=right+down;
+		map.put(call,totalCount);
+		call=null;
+		return totalCount;
+	   
+	};
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	private static void reCreatePaths(StackList<StackList<Node>> pathList,Node node,Count count,int size){
+System.out.println("reacreate paths..");
+		Iterator<StackList<Node>> peter=pathList.iterator();
+		for(int i=0;peter.hasNext()&&i<size;i++){
+			StackList<Node> temp=peter.next();
+			System.out.println("comparing temp.."+temp);
+			if(temp.getFirst().equals(node)){
+				System.out.println("first hit..");
+				count.i=count.i+1;
+				pathList.push(temp);
+				Iterator<Node> tempIter=temp.iterator();
+				for(int k=0;tempIter.hasNext();k++){
+					if(k>0){
+						reCreatePaths(pathList, tempIter.next(), count, size);
+					}
+					else{
+						tempIter.next();
+					}
+				}
+				return;
+			}
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * implementation is not  yet finished
+	 * @param size
+	 * @param row
+	 * @param column
+	 * @param count
+	 * @param rPrev
+	 * @param cPrev
+	 * @param g
+	 * @param pathList
+	 * @param path
+	 * @param track
+	 */
+	 public static  void search4(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,StackList<StackList<Node>> pathList,StackList<Node> path,Count track){
+			if(row==size-1&&column==size-1){
+				count.i=count.i+1;
+				
+				path.push(g.getNode(row, column));
+				pathList.push(path.clone());
+				path.display();
+				System.out.println();			
+				path.empty();
+				return;
+			}
+
+			
+			
+			/***
+			 * find  a way to store paths traversed---done
+			 * find a way to reutilise paths which are already traversed --?
+			 * append already traversed path with path which we are about to traverse
+			 * 
+			 */
+			
+			
+			
+		
+			
+			
+			if(row>=0 && row<= size-1&&(column+1<=size-1&&column+1>=0&&(row!=rPrev||column+1!=cPrev))){
+				    boolean pathFound=false;
+				    /*if(path.isEmpty()){*/
+				    	Node node=g.getNode(row, column);
+				    	Long c=count.i;
+				    	reCreatePaths(pathList, node,count,pathList.size());
+				    	if(c<count.i){
+				    		System.out.println("path  found..");
+				    		pathFound=true;
+				    	}
+				    /*}*/
+				    if(!pathFound){
+				    	path.push(g.getNode(row, column)); 
+						search4(size, row, column+1, count,row,column,g,pathList,path,track);
+				    }
+				    	
+				
+				
+				
+			}
+			if(column>=0 && column<= size-1&&(row+1<=size-1&&row+1>=0&&(column!=cPrev||row+1!=rPrev))){
+				   boolean pathFound=false;
+			
+				Node node=g.getNode(row, column);
+		    	Long c=count.i;
+		    	reCreatePaths(pathList, node,count,pathList.size());
+		    	if(c<count.i){
+		    		System.out.println("path  found..");
+		    		pathFound=true; 
+		    	}
+				
+				if(!pathFound){
+					path.push(g.getNode(row, column));
+					search4(size, row+1, column, count,row,column,g,pathList,path,track);	
+			
+				}
+				
+					
+					
+			}
+		
+		};
+		
+		
+	
     
     
 	public static  void search(int size,int row,int column,Count count,int rPrev,int cPrev,ArrayGraph g,List<List<Node>> pathlist,List<Node> path){

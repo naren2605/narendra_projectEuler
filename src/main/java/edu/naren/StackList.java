@@ -13,6 +13,15 @@ LinkedList<Data> list = new LinkedList<Data>();
 	   return list.size();
    }
    
+   public Data peek(){
+	   if(list.next!=null){
+		   return list.next.data; 
+	   }
+	   else{
+		   return null;
+	   }
+   }
+   
    public boolean isEmpty(){
 	   
 	   if(list.root==null){
@@ -39,6 +48,11 @@ LinkedList<Data> list = new LinkedList<Data>();
 		Data data= list.next.data;
 		list.delete(list.next);
 		return data;
+	}
+	
+	
+	public Data get(int position){
+		return list.get(position);
 	}
 	
 	public Data getFirst(){
@@ -117,7 +131,7 @@ LinkedList<Data> list = new LinkedList<Data>();
 	@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return list.toString();
+			return "["+list.toString()+"]";
 		}
 	
 	public static void main(String[] args) {

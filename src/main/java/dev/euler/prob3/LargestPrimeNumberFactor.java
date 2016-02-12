@@ -124,6 +124,21 @@ public static long power(long base,long index){
 		//System.out.println(guess);
 		return (long) (guess);
 	}
+	public static double getSquareRootApproxiDouble(long number){
+		
+		double guess=1.0;
+		double upperBound=number;
+		double doublenumber=number;
+		guess=(1/2.0)*(guess+(doublenumber/guess));
+		//System.out.println("doublenumber-(guess*guess) :"+((guess*guess)-doublenumber));
+		while((((guess*guess)-doublenumber)>0.01)){
+			guess=(1/2.0)*(guess+(doublenumber/guess));
+		//	System.out.println("guess=="+guess);
+		}
+		
+		//System.out.println(guess);
+		return guess;
+	}
 	
 	
 /*	public static long getSquareRootApproxi(long number,long lowerBound,long upperBound){
