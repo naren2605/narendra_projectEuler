@@ -84,6 +84,109 @@ public static final boolean test=false;
 	
 	
 	public static String add(String number1,String number2){
+	
+	   	
+		return  add(equalizeNumbers(number1, number2));
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param number1
+	 * @param number2
+	 * @return if  number1 &gt;  number2 return -1 <br/>
+	 * else if  number1 &lt;  number2 return 1 <br/>
+	 * else return 0 <br/>
+	 */
+	public static int compare(String number1,String number2){
+		String num1=number1.replaceAll("^0", "");
+		String num2=number2.replaceAll("^0", "");
+		int[][] arr=equalizeNumbers(number1, number2);
+		String str="";
+		for(int i:arr[1]){
+			str=str+i;
+		}
+		str=str.replaceAll("^0","");
+		if(str.equals(num1)&&str.equals(num2)){
+			return 0;
+		}
+		else if(str.equals(num1)){
+			return -1;
+		}
+		else {
+			return 1;
+		}
+	}
+	
+	public static <Type> List<Type> getList(List<Type> list,Type[] array){
+		for(Type t:array){
+			list.add(t);
+		}
+		
+		return list;
+	}
+
+	
+	/**
+	 * 
+	 * @param number1
+	 * @param number2
+	 * @return int[1] will have larger number,int[0] will have smaller number
+	 */
+	public static  Integer[][] equalizeNumber(String number1,String number2){
+		int[] number1Array=convertStringToIntArray(number1);
+	   	int[] number2Array=convertStringToIntArray(number2);
+	    Integer[][] array= new Integer[2][];
+	    
+	   	int diff=(number1Array.length-number2Array.length);
+	
+	   	if(diff<0){
+	   		Integer[] ar=new Integer[number2Array.length];
+	   		for(int i=0;i<(-1*diff);i++){
+	   			ar[i]=0;
+	   		}
+	   		for(int i=(-1*diff),k=0;i<ar.length;i++,k++){
+	   	
+	   			ar[i]=number1Array[k];
+	   		}
+	   		array[0]=ar;
+	   		array[1]=new Integer[number2Array.length];
+	   		for(int k=0;k<number2Array.length;k++){
+	   			array[1][k]=number2Array[k];	
+	   		}
+	   		
+	   	}
+	   	else{
+	   		Integer[] ar=new Integer[number1Array.length];
+	   		for(Integer i=0;i<(diff);i++){
+	   			ar[i]=0;
+	   		}
+	   		for(Integer i=(diff),k=0;i<ar.length;i++,k++){
+	   			ar[i]=number2Array[k];
+	   		}
+	   		array[0]=ar;
+	   		array[1]=new Integer[number1Array.length];
+	   		for(int k=0;k<number1Array.length;k++){
+	   			array[1][k]=number1Array[k];	
+	   		}
+	   	}
+	   	return array;
+		
+	}
+	/**
+	 * 
+	 * @param number1
+	 * @param number2
+	 * @return int[1] will have larger number,int[0] will have smaller number
+	 */
+	public static  int[][] equalizeNumbers(String number1,String number2){
 	   	int[] number1Array=convertStringToIntArray(number1);
 	   	int[] number2Array=convertStringToIntArray(number2);
 	    int[][] array= new int[2][];
@@ -113,8 +216,7 @@ public static final boolean test=false;
 	   		array[0]=ar;
 	   		array[1]=number1Array;
 	   	}
-	   	
-		return  add(array);
+	   	return array;
 	}
 
 	
@@ -282,7 +384,7 @@ public static final boolean test=false;
     	}
     	
     	Collections.reverse(sumList);
-    	int overFlowSum=0;
+    
 		for(int i=0;i<sumList.size();i++){
 			if(i+1==sumList.size()&&(sumList.get(i)/10>0)){
 				int overflow=sumList.get(i)/10;
