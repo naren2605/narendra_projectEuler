@@ -3,6 +3,7 @@ package dev.euler.prob26;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import dev.Utils;
@@ -10,15 +11,193 @@ import dev.Utils;
 public class ReciprocalCycleDetector {
 	public static final List<Long> performance=new ArrayList<Long>();
 public static void main(String[] args) {
-	String less="5676567853627546374654637465364637567854554378239463783478943789347382947834783465738265724819486547821936738213657821936547281563478213567285678256732864732864286758264367874345672873687543457765";
-	String more="67845678569468543678764345676434567543345754323467654323454567";
+	
+	
+  int max=0;
+  System.out.println(new Date());
+	for(int i=2;i<=1000;i++){
+		ArrayList<Integer> list=new ArrayList<Integer>();
+		list.add(1);
+		String q=div(i,list, true, "");
+		//System.out.println(1+"/"+i+" === 0."+q);
+		if(q.matches(".*\\(.+\\).*")){
+			int len=q.replaceFirst(".*\\(", "").replaceFirst("\\).*", "").length();
+			//System.out.println(i+"=="+len);
+			if(len>max){
+				max=i;
+			}
+			
+		}
+	}
+	System.out.println("max=="+max);
+	 System.out.println(new Date());	
+	//System.out.println(max);
+	
+}
+
+private static String div(Integer Y,List<Integer> list,boolean isFirst,String Q){
+	int length=list.size();
+	for(int index=length-2;index>=0;index--){
+	     if(list.get(index).equals(list.get(length-1))){
+	    	 //System.out.println("repetetion detected");
+	    	 String Q1="";
+	    	 int lastItem=list.get(length-1);
+	    		while(lastItem<Y){
+	    			if(isFirst){
+	    				isFirst=false;
+	    				lastItem=lastItem*10;
+	    			}
+	    			else{
+	    				lastItem=lastItem*10;
+	    				Q1=Q1+"0";
+	    			}
+	    		}
+	    		Q1=Q1+(lastItem/Y);
+	    		
+	    		Q=Q.replaceFirst(Q1, "("+Q1);
+                Q=Q+")";
+	    	 
+	    	 return Q;
+	     }
+	}
+	int lastItem=list.get(length-1);
+	while(lastItem<Y){
+		if(isFirst){
+			isFirst=false;
+			lastItem=lastItem*10;
+		}
+		else{
+			lastItem=lastItem*10;
+			Q=Q+"0";
+		}
+	}
+	Q=Q+(lastItem/Y);
+	int partialReminder=lastItem-((lastItem/Y)*Y);
+	if(partialReminder==0){
+		return Q;
+	}
+	else{
+		list.add(partialReminder);
+		return div(Y, list, true, Q);
+	}
+}
+
+
+
+
+public static String reciprocals(int ten,int number,String precision){
+	if(ten%number==0){
+		
+		precision=(ten/number)+"";
+	    return precision;
+	}
+	else{
+		
+		precision=reciprocals(10*ten,number,precision);
+		
+	}
+	return  precision;
+}
+
+
+
+
+
+
+/**
+ * fast approach with long division is required for solving reciprocal cycle detection
+ * choosing fast division algorithm
+ * giving a try with newton-raphson's fast division.
+ * 
+ * f(x)=xD-1
+ * x
+ */
+
+
+
+
+private static String nextXEstimate(String x){
+	
+	return null;
+}
+
+
+
+
+
+
+
+/**
+ * 
+ * @param ten
+ * @param number
+ * @param temp
+ * @param precision
+ * @return
+ */
+
+
+public static String reciprocals2(long ten,long number,long temp,String precision){
 
 	
-/*	String more="1000000000000000000000000000000000000";
-	String less="1";*/
-System.out.println(divide("5000000", "2"));
-System.out.println(performance.size());
+	if(ten%number==0&&temp!=0){
+	    return precision+temp;
+	}
+	
+	else{
+		String str=""+temp;
+		
+	//System.out.println("precision : "+precision);
+		if(precision.contains(str)&&(!str.equals("0"))){
+			precision=precision.replaceAll(str, "("+str);
+		    precision=precision+")";
+		}
+		else{
+			if(temp!=-1){
+				precision=precision+temp;
+			}
+			else{
+				ten=10;
+			}
+			long test=(ten/number)%10;
+			long testR=ten-((ten/number)*number);
+			if(testR>0){
+				if(number!=test){
+					ten=ten*10;
+					System.out.println("incrementing tne.."+test);
+					test=test*10+testR*10/number;
+					if(test==0){
+						precision="0"+precision;
+					}
+				}
+				
+				
+				//test=ten-((ten/number)*number);
+				
+		 
+			}
+			  System.out.println("temp : "+temp+" ten : "+ten*10+" precision : "+precision+" next temp:("+ten+"/"+number+")"+(ten/number)%10+" number: "+test);
+			precision=reciprocals2(10*ten,number,test,precision);	
+		}
+		
+		
+	}
+	return  precision;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * dividend <code>></code>  divisor
@@ -55,6 +234,52 @@ date1=new Date();
 }
 
 public static  String sub(String number1,String number2){
+	Integer  number1Precision=null;
+	Integer number2Precision=null;
+	int finalPrecision=0;
+	if(number1.matches("\\d+\\.\\d+")){
+		number1Precision=number1.replaceAll("^\\d+\\.", "").length();
+		number1=number1.replaceAll("\\.", "");
+	}
+    if(number2.matches("\\d+\\.\\d+")){
+    	number2Precision=number2.replaceAll("^\\d+\\.", "").length();
+    	number2=number2.replaceAll("\\.", "");
+     }
+
+
+      if(number1Precision!=null&&number2Precision!=null){
+    	  int diff=number1Precision-number2Precision;
+    	  if(diff>0){
+    		  finalPrecision=number1Precision;
+    		  for(int i=0;i<diff;i++){
+    			  number2=number2+"0";
+    		  }
+    	  }
+    	  else{
+    		  finalPrecision=number2Precision;
+    		  for(int i=0;i<(-1*diff);i++){
+    			  number1=number1+"0";
+    		  }
+    	  }
+      }
+      else if(number1Precision!=null){
+    	
+    		  finalPrecision=number1Precision;
+    		  for(int i=0;i<finalPrecision;i++){
+    			  number2=number2+"0";
+    		  }
+    	  
+      }
+      else if(number2Precision!=null){
+    	  
+    
+    		  finalPrecision=number2Precision;
+    		  for(int i=0;i<finalPrecision;i++){
+    			  number1=number1+"0";
+    		  }
+    	  
+      }
+
 	int compare=Utils.compare(number1, number2);
 	Integer[][] arr=Utils.equalizeNumber(number1, number2);
 	if(compare==0){
@@ -132,10 +357,16 @@ int size=smallNumberList.size();
 		str=str+i;
 	}
 	str=str.replaceAll("^0", "");
-	
+	if(finalPrecision>0){
+		str=str.substring(0,str.length()-finalPrecision)+"."+str.substring(str.length()-finalPrecision,str.length());
+	}
+   	if(str.matches("^0*\\..*")){
+   		str=0+str.replaceFirst("^0+", "");	
+	}
 	if(compare>0){
 		str="-"+str;
 	}
+	
 	return str;
 }
 
