@@ -84,9 +84,60 @@ public static final boolean test=false;
 	
 	
 	public static String add(String number1,String number2){
-	
-	   	
-		return  add(equalizeNumbers(number1, number2));
+		Integer  number1Precision=null;
+		Integer number2Precision=null;
+		int finalPrecision=0;
+		if(number1.matches("\\d+\\.\\d+")){
+			number1Precision=number1.replaceAll("^\\d+\\.", "").length();
+			number1=number1.replaceAll("\\.", "");
+		}
+        if(number2.matches("\\d+\\.\\d+")){
+        	number2Precision=number2.replaceAll("^\\d+\\.", "").length();
+        	number2=number2.replaceAll("\\.", "");
+         }
+   
+
+          if(number1Precision!=null&&number2Precision!=null){
+        	  int diff=number1Precision-number2Precision;
+        	  if(diff>0){
+        		  finalPrecision=number1Precision;
+        		  for(int i=0;i<diff;i++){
+        			  number2=number2+"0";
+        		  }
+        	  }
+        	  else{
+        		  finalPrecision=number2Precision;
+        		  for(int i=0;i<(-1*diff);i++){
+        			  number1=number1+"0";
+        		  }
+        	  }
+          }
+          else if(number1Precision!=null){
+        	
+        		  finalPrecision=number1Precision;
+        		  for(int i=0;i<finalPrecision;i++){
+        			  number2=number2+"0";
+        		  }
+        	  
+          }
+          else if(number2Precision!=null){
+        	  
+        
+        		  finalPrecision=number2Precision;
+        		  for(int i=0;i<finalPrecision;i++){
+        			  number1=number1+"0";
+        		  }
+        	  
+          }
+        
+	   	String res=add(equalizeNumbers(number1, number2));
+	   	if(finalPrecision>0){
+			res=res.substring(0,res.length()-finalPrecision)+"."+res.substring(res.length()-finalPrecision,res.length());
+		}
+	   	if(res.matches("^0*\\..*")){
+	   		res=0+res.replaceFirst("^0+", "");	
+		}
+	   	return  res;
 		
 		
 		
@@ -220,11 +271,166 @@ public static final boolean test=false;
 	}
 
 	
-    public static String sub(String number1,String number2){
+	public static  String sub(String number1,String number2){
+		Integer  number1Precision=null;
+		Integer number2Precision=null;
+		
+		int finalPrecision=0;
+		
+		if(number1.contains("-")&&!number2.contains("-")){
+			return "-"+add(number1.replaceAll("-", ""),number2.replaceAll("-", ""));
+		}
+		else if(number2.contains("-")){
+			//sub(String number1,String number2);
+		}
+		
+		if(number1.matches("\\d+\\.\\d+")){
+			number1Precision=number1.replaceAll("^\\d+\\.", "").length();
+			number1=number1.replaceAll("\\.", "");
+		}
+        if(number2.matches("\\d+\\.\\d+")){
+        	number2Precision=number2.replaceAll("^\\d+\\.", "").length();
+        	number2=number2.replaceAll("\\.", "");
+         }
+   
+
+          if(number1Precision!=null&&number2Precision!=null){
+        	  int diff=number1Precision-number2Precision;
+        	  if(diff>0){
+        		  finalPrecision=number1Precision;
+        		  for(int i=0;i<diff;i++){
+        			  number2=number2+"0";
+        		  }
+        	  }
+        	  else{
+        		  finalPrecision=number2Precision;
+        		  for(int i=0;i<(-1*diff);i++){
+        			  number1=number1+"0";
+        		  }
+        	  }
+          }
+          else if(number1Precision!=null){
+        	
+        		  finalPrecision=number1Precision;
+        		  for(int i=0;i<finalPrecision;i++){
+        			  number2=number2+"0";
+        		  }
+        	  
+          }
+          else if(number2Precision!=null){
+        	  
+        
+        		  finalPrecision=number2Precision;
+        		  for(int i=0;i<finalPrecision;i++){
+        			  number1=number1+"0";
+        		  }
+        	  
+          }
 		
 		
-		return  null;
+          System.out.println("str1=="+number1);
+          System.out.println("str2=="+number2);
+          number1=number1.replaceAll("^0*", "");
+          number2=number2.replaceAll("^0*", "");
+          int compare=Utils.compare(number1, number2);
+		Integer[][] arr=Utils.equalizeNumber(number1, number2);
+		if(compare==0){
+			return "0";
+		}
+		/**
+		 * if compare lesthan 1 number1 is greater
+		 * if comare eq 0 number1=number2
+		 * else number2 is greater
+		 */
+
+	List<Integer> smallNumberList=new ArrayList<Integer>();
+	List<Integer> largeNumberList=new ArrayList<Integer>();
+	List<Integer> outputList=new ArrayList<Integer>();
+	Utils.getList(smallNumberList,arr[0]);
+	Utils.getList(largeNumberList,arr[1]);
+
+	int size=smallNumberList.size();
+
+		for(int i=size-1;i>=0;i--){
+			int diff=largeNumberList.get(i)-smallNumberList.get(i);
+			if(diff<0){
+				int index=i-1;
+			//	System.out.println("k.."+i);
+				for(int k=i;k>0;k--){
+					
+					if(largeNumberList.get(k)<largeNumberList.get(k-1)){
+			//	System.out.println("break.."+(k-1));
+						index=k-1;
+						break;
+					}
+					else{
+					
+					}
+					//largeNumberList.
+				}
+				
+				//System.out.println(i+"diff");
+				for(int k=i,elem=largeNumberList.get(k);k>index;k--,elem=largeNumberList.get(k)){
+					if(k-1<0)break;
+					
+					int elem2=largeNumberList.get(k-1);
+					//if(elem2<elem){
+					//System.out.println(i+"elm"+largeNumberList.get(k));
+						
+						
+						if(elem==0){
+							largeNumberList.set(k, 10);
+							
+						}
+						else if(elem==9){
+							
+						}
+						else{
+							largeNumberList.set(k, elem+10);	
+						}
+						if(elem2==0){
+							largeNumberList.set(k-1, 9);
+						}
+						else{
+							largeNumberList.set(k-1, elem2-1);
+						}
+					
+						//System.out.println(index+"diff"+largeNumberList);
+				}	
+			}
+		//System.out.println(largeNumberList.get(i)+"test"+smallNumberList.get(i));
+			diff=largeNumberList.get(i)-smallNumberList.get(i);
+		//	System.out.println(diff);
+			outputList.add(diff);
+		}
+		Collections.reverse(outputList);
+		String str="";
+		for(int i:outputList){
+			str=str+i;
+		}
+		System.err.println(str);
+		str=str.replaceAll("^0", "");
+		
+		if(finalPrecision>0){
+			str=str.substring(0,str.length()-finalPrecision)+"."+str.substring(str.length()-finalPrecision,str.length());
+		}
+		System.err.println("......."+str);
+	   	if(str.matches("^0*\\..*")){
+	   		
+	   		str=0+str.replaceFirst("^0+", "");	
+		}
+		
+         if(str.matches("^-0*\\..*")){
+	   		
+	   		str="-"+0+str.replaceFirst("^-?0*", "");	
+		}
+		
+		if(compare>0){
+			str="-"+str;
+		}
+		return str;
 	}
+
 	
 	public static String factorial(String number){
 			String factorial="1";
@@ -277,8 +483,38 @@ public static final boolean test=false;
 		return result;
 	}
 	public static String multiply(String number1,String number2){
-		
-		int[]number1Array=convertStringToIntArray(number1);
+		Integer  number1Precision=null;
+		Integer number2Precision=null;
+		int finalPrecision=0;
+		boolean isNum1Negative=false;
+		boolean isNum2Negative=false;
+        if(number1.matches(".*-.*")){
+        	number1=number1.replaceAll("-", "");
+        	isNum1Negative=true;	
+        }
+        if(number2.matches(".*-.*")){
+        	number2=number2.replaceAll("-", "");
+        	isNum2Negative=true;
+        }
+		if(number1.matches("\\d+\\.\\d+")){
+			number1Precision=number1.replaceAll("^\\d+\\.", "").length();
+			number1=number1.replaceAll("\\.", "").replaceAll("-", "");
+		}
+        if(number2.matches("\\d+\\.\\d+")){
+        	number2Precision=number2.replaceAll("^\\d+\\.", "").length();
+        	number2=number2.replaceAll("\\.", "").replaceAll("-", "");
+         }
+        
+        if(number1Precision!=null){
+        	finalPrecision=number1Precision;
+        }
+        if(number2Precision!=null){
+        	finalPrecision=finalPrecision+number2Precision;
+        }
+
+        
+        
+        int[]number1Array=convertStringToIntArray(number1);
 		int[]number2Array=convertStringToIntArray(number2);
 		int[]temp=null;
 		if(number2Array.length>number1Array.length){
@@ -317,7 +553,21 @@ public static final boolean test=false;
 			result[i]=list.get(i);
 		}
 		String endResult=add(result);
-		return endResult.replaceFirst("0*", "");
+		
+		if(finalPrecision>0){
+			endResult=endResult.substring(0,endResult.length()-finalPrecision)+"."+endResult.substring(endResult.length()-finalPrecision,endResult.length());
+		}
+		if(endResult.matches("^0*\\..*")){
+			endResult=0+endResult.replaceFirst("^0+", "");	
+		}
+		else{
+			endResult=endResult.replaceFirst("0*", "");
+		}
+		if(!((isNum1Negative&&isNum2Negative)||(!isNum1Negative&&!isNum2Negative))){
+			endResult="-"+endResult;
+		}
+		
+		return endResult;
 		
 	}
 	
