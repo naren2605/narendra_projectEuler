@@ -676,6 +676,50 @@ public static final boolean test=false;
 		return data;
 	}
 	
+	public static String getStringDataFromFileWithNewLine(File file){
+		String data="";
+		try{
+			FileReader fr= new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+		
+			String line="";
+			for(;(line=br.readLine())!=null;){
+				data=data+line+"\n";
+			}
+		}
+		
+		catch(Exception e){
+			
+		}
+		return data;
+	}
+	
+	public static <toType> void splitToType(File file,SplitScheme<toType> split){
+		String data="";
+		try{
+			FileReader fr= new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+		
+			String line="";
+			for(;(line=br.readLine())!=null;){
+				split.split(line);
+			}
+		}
+		catch(Exception e){
+			
+		}
+		
+	}
+	
+	public abstract class SplitScheme<toType>{
+		
+		public abstract toType split(String string);
+		
+	}
+	
+	
+	
+	
 	public static List<List<String>> getStringArrayDataFromFile(File file){
 		List<List<String>> stringdata=new ArrayList<List<String>>();
 		try{

@@ -5,6 +5,20 @@ import java.util.Iterator;
 public class StackList<Data>  implements Iterable<Data>{
 LinkedList<Data> list = new LinkedList<Data>();
 
+  public boolean contains(Data data){
+	  boolean contains=false;
+	  if(data instanceof Comparable){
+		  for(Iterator<Data> itr=this.iterator();itr.hasNext();){
+			 if(data.equals(itr.next())){
+				 contains=true;
+				 break;
+			 }
+			  
+		  }
+	  }
+	  return contains;
+  }
+
    public Iterator<Data> iterator() {
 		return list.iterator();
 	}

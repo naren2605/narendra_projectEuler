@@ -19,7 +19,7 @@ public static void main(String[] args) {
 		ArrayList<Integer> list=new ArrayList<Integer>();
 		list.add(1);
 		String q=div(i,list, true, "");
-		//System.out.println(1+"/"+i+" === 0."+q);
+		System.out.println(1+"/"+i+" === 0."+q);
 		if(q.matches(".*\\(.+\\).*")){
 			int len=q.replaceFirst(".*\\(", "").replaceFirst("\\).*", "").length();
 			//System.out.println(i+"=="+len);
