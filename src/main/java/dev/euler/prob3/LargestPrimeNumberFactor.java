@@ -76,20 +76,25 @@ public static long power(long base,long index){
 		
 		
 		long root=getSquareRootApproxi(number)+1;
-	   if(number==1||number==2){
+	   if(number==1||number==2||number==3){
 		   return true;
 	   }
+	   if(number%2==0||number%3==0){
+		   return false;
+	   }
+	   //System.err.println("ROOT:"+root);
 		for(int i=3,k=1,count=1;i<=root;i++){
 	  	  int localk=count;
 	  	  
     	  k=(6*localk-1);
-    	 
+    	 //System.out.println(">>"+k);
     	  if(number%k==0&& number!=k){
-    		   isPrime= false;
+    		   isPrime=false;
     		   break;
     		  
     	   }
     	  k=(6*localk+1);
+    	  //System.out.println("<<"+k);
     	  if(number%k==0 && number!=k){
    		    
     		  isPrime= false;
